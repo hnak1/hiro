@@ -1,0 +1,38 @@
+name: 🌅 朝の自動Inbox整理
+
+on:
+  schedule:
+    # JST 7:00 = UTC 22:00（前日）
+    - cron: '0 22 * * *'
+  workflow_dispatch:
+
+jobs:
+  inbox-organize:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run inbox-organizer
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          claude --print "inbox-organizerエージェントとして動作してください。00_Inbox/の未整理ファイルを分類ロジックに従って自動整理し、移動ログを90_System/inbox-log.mdに記録してください。" \
+            --allowedTools "Read,Write,Edit,Bash,Glob,Grep" \
+            --max-turns 20
+
+      - name: Git commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet || git commit -m "🤖 自動: Inbox整理 $(date +'%Y-%m-%d')"
+          git push

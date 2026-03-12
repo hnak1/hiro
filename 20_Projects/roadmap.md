@@ -1,0 +1,103 @@
+# 🗺️ Brain Roadmap
+
+最終更新: 2026-03-12
+
+---
+
+## MS1: 基盤構築 ✅ 完了
+
+**目標**: brainの骨格を作り、自律運用の基盤を整備する
+**期間**: 2026-03-12
+**状態**: 🟢 完了
+
+### 完了ファイル
+
+#### ディレクトリ構造
+- [x] `00_Inbox/`
+- [x] `10_Journal/`
+- [x] `20_Projects/`
+- [x] `30_Tech_Notes/`
+- [x] `50_Business_Context/`
+- [x] `90_System/`
+- [x] `99_Archives/`
+- [x] `.claude/commands/`
+- [x] `.claude/agents/`
+- [x] `.github/workflows/`
+
+#### 設定ファイル
+- [x] `.claude/CLAUDE.md` — プロジェクト設定・自律動作ルール
+- [x] `.gitignore`
+- [x] `README.md`
+
+#### カスタムコマンド（14個）
+- [x] `/decompose` — ゴールをMilestone→Task→Subtaskに分解
+- [x] `/work` — Issueを実行して完了させる
+- [x] `/orchestrate` — 自律実行の核心コマンド
+- [x] `/kickoff` — プロジェクト開始前のbrain探索
+- [x] `/deep-research` — 3エージェント並列Web調査
+- [x] `/weekly-review` — 週次振り返り自動生成
+- [x] `/brain-status` — brain健全性ダッシュボード
+- [x] `/stale-check` — 停滞プロジェクト診断
+- [x] `/idea` — 12フレームワークでアイデア生成
+- [x] `/new-project` — PM視点でプロジェクト骨格作成
+- [x] `/sync` — brain↔GitHub Issue同期
+- [x] `/voice-note` — 音声メモ構造化
+- [x] `/meeting` — 会議録構造化
+- [x] `/issue` — 自然言語→GitHub Issue構造化
+
+#### エージェント（13体）
+- [x] `note-writer` — 思考→構造化ノート変換
+- [x] `knowledge-explorer` — brain横断探索
+- [x] `project-orchestrator` — プロジェクト優先度判断
+- [x] `inbox-organizer` — Inbox自動分類
+- [x] `deep-researcher` — Web深層調査
+- [x] `pm-advisor` — Why/What問いかけ
+- [x] `pj-manager` — How/When管理
+- [x] `socrates` — ソクラテス式問答
+- [x] `marketer` — マーケティング分析
+- [x] `writer` — 文章改善
+- [x] `retrospective-facilitator` — KPT振り返り
+- [x] `idea-generator` — アイデア無限生成
+- [x] `context-builder` — 作業前コンテキスト収集
+
+#### GitHub Actions（3本）
+- [x] `morning-inbox.yml` — 毎朝7:00 JST Inbox自動整理
+- [x] `weekly-review.yml` — 毎週金曜18:00 JST 週次レビュー
+- [x] `issue-chain.yml` — Issueクローズ→次Issue自動チェーン
+
+---
+
+## MS2: 運用自動化 🔲 未完了
+
+**目標**: GitHub Actionsを実際に動かし、日常運用を自動化する
+**状態**: ⬜ 未開始
+
+### Issues
+- [ ] GitHubリポジトリを作成してpush
+- [ ] `ANTHROPIC_API_KEY` をGitHub Secretsに登録
+- [ ] `gh` CLI をローカルにインストール・認証
+- [ ] morning-inbox.yml の動作確認
+- [ ] weekly-review.yml の動作確認
+- [ ] issue-chain.yml の動作確認
+- [ ] 最初のプロジェクトを `/new-project` で作成
+- [ ] 最初の `/orchestrate` 実行
+
+---
+
+## MS3: 自律運用 🔲 未完了
+
+**目標**: Claudeが能動的に提案・実行し、人間の介入を最小化する
+**状態**: ⬜ 未開始
+
+### Issues
+- [ ] `/orchestrate` の定期自動実行設定
+- [ ] `/stale-check` の定期通知設定
+- [ ] brain健全性モニタリング
+- [ ] ノートの自動リンク・タグ強化
+- [ ] 意思決定ログの自動収集
+
+---
+
+## 完了プロジェクト
+
+（完了時に99_Archives/へ移動）

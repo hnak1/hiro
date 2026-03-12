@@ -1,0 +1,48 @@
+name: 🔗 Issue自動チェーン実行
+
+on:
+  issues:
+    types: [closed]
+
+jobs:
+  auto-next-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Detect next priority issue
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CLOSED_ISSUE_NUMBER: ${{ github.event.issue.number }}
+          CLOSED_ISSUE_TITLE: ${{ github.event.issue.title }}
+        run: |
+          claude --print "project-orchestratorエージェントとして動作してください。Issue #${CLOSED_ISSUE_NUMBER}「${CLOSED_ISSUE_TITLE}」がクローズされました。20_Projects/roadmap.mdを読み込み、残りのopenなIssueをスコアリング（Score=(依存関係×3)+(ラベル優先度×2)+(タイプ適合度×2)+(工数×1)+(鮮度×1)）して次に実行すべきIssueを1つ特定し、そのIssue番号と理由をコメントしてください。ブロッカーがある場合はスキップしてください。" \
+            --allowedTools "Read,Bash,Glob,Grep" \
+            --max-turns 15
+
+      - name: Update roadmap
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          claude --print "20_Projects/roadmap.mdを更新してください。Issue #${CLOSED_ISSUE_NUMBER}を完了済みとしてマークしてください。" \
+            --allowedTools "Read,Write,Edit,Bash" \
+            --max-turns 5
+
+      - name: Git commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet || git commit -m "🔗 Issue #${{ github.event.issue.number }} 完了 → 次のIssueへチェーン"
+          git push
