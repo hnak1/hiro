@@ -70,17 +70,16 @@
 ## MS2: 運用自動化 🔲 未完了
 
 **目標**: GitHub Actionsを実際に動かし、日常運用を自動化する
-**状態**: ⬜ 未開始
+**状態**: 🟡 進行中
 
 ### Issues
-- [ ] GitHubリポジトリを作成してpush
-- [ ] `ANTHROPIC_API_KEY` をGitHub Secretsに登録
-- [ ] `gh` CLI をローカルにインストール・認証
-- [ ] morning-inbox.yml の動作確認
-- [ ] weekly-review.yml の動作確認
-- [ ] issue-chain.yml の動作確認
-- [ ] 最初のプロジェクトを `/new-project` で作成
-- [ ] 最初の `/orchestrate` 実行
+- [x] GitHubリポジトリ（hnak1/hiro）を作成してpush ✅
+- [x] `gh` CLI をインストール・認証（hnak1） ✅
+- [ ] #1 `ANTHROPIC_API_KEY` を GitHub Secrets に登録する `priority:critical`
+- [ ] #2 morning-inbox.yml の動作確認（手動実行） `depends on #1`
+- [ ] #3 weekly-review.yml の動作確認（手動実行） `depends on #1`
+- [ ] #4 最初のプロジェクトを `/new-project` で作成する
+- [ ] #5 `/orchestrate` の初回実行 `depends on #4`
 
 ---
 
