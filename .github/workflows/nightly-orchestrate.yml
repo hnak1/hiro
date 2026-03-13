@@ -1,0 +1,40 @@
+name: 🤖 深夜オーケストレート
+
+on:
+  schedule:
+    # JST 0:30 = UTC 15:30（前日）※triage完了後に実行
+    - cron: '30 15 * * *'
+  workflow_dispatch:
+
+jobs:
+  orchestrate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run orchestrate
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          claude --print "20_Projects/roadmap.md を読み込み、GitHubのopen Issueをすべて取得してください。スコアリング式（依存関係×3 + ラベル優先度×2 + タイプ適合度×2 + 工数×1 + 鮮度×1）で優先度を計算し、上位3件のIssueを順次実行してください。各Issue完了後にroadmap.mdを更新してgit commitしてください。完了後に10_Journal/retrospective-\$(date +'%Y-%m-%d').md に振り返りを保存してください。Guardrails: max_issues=3, consecutive_errors_limit=3で停止。" \
+            --allowedTools "Read,Write,Edit,Bash,Glob,Grep" \
+            --max-turns 50
+
+      - name: Git commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet || git commit -m "🤖 自動: オーケストレート $(date +'%Y-%m-%d')"
+          git pull --rebase origin main
+          git push

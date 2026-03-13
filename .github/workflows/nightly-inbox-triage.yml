@@ -1,0 +1,39 @@
+name: 🗂️ 深夜Inboxトリアージ
+
+on:
+  schedule:
+    # JST 0:00 = UTC 15:00（前日）
+    - cron: '0 15 * * *'
+  workflow_dispatch:
+
+jobs:
+  inbox-triage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run inbox triage
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          claude --print "00_Inbox/ にある未整理の .md ファイルを内容に基づいて以下のフォルダに分類・移動してください。移動先の判定基準: 10_Journal（日付付き日記・振り返り・会議メモ）、20_Projects（ゴール・期限・タスク・プロジェクト関連）、30_Tech_Notes（技術知識・ツール・永続的な参照資料）、50_Business_Context（ビジネス文脈・意思決定・戦略・組織）、99_Archives（完了済み・不要なもの）、00_Inbox留置（判断不能・要確認）。処理後に 10_Journal/inbox-triage-\$(date +'%Y-%m-%d').md に結果レポートを保存してください。" \
+            --allowedTools "Read,Write,Edit,Bash,Glob,Grep" \
+            --max-turns 30
+
+      - name: Git commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet || git commit -m "🗂️ 自動: Inboxトリアージ $(date +'%Y-%m-%d')"
+          git pull --rebase origin main
+          git push
