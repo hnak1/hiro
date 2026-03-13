@@ -1,6 +1,6 @@
 # 🗺️ Brain Roadmap
 
-最終更新: 2026-03-12（教授選プロジェクト追加）
+最終更新: 2026-03-13（MS2完了・#5クローズ）
 
 ---
 
@@ -67,22 +67,19 @@
 
 ---
 
-## MS2: 運用自動化 🔲 未完了
+## MS2: 運用自動化 ✅ 完了
 
 **目標**: GitHub Actionsを実際に動かし、日常運用を自動化する
-**状態**: 🟡 進行中
+**状態**: 🟢 完了
 
-### Issues
+### 完了 Issues
 - [x] GitHubリポジトリ（hnak1/hiro）を作成してpush ✅
 - [x] `gh` CLI をインストール・認証（hnak1） ✅
-- [ ] #1 `ANTHROPIC_API_KEY` を GitHub Secrets に登録する `priority:critical`
-- [ ] #2 morning-inbox.yml の動作確認（手動実行） `depends on #1`
-- [ ] #3 weekly-review.yml の動作確認（手動実行） `depends on #1`
 - [x] #1 `ANTHROPIC_API_KEY` を GitHub Secrets に登録する ✅
 - [x] #2 morning-inbox.yml の動作確認（手動実行） ✅
 - [x] #3 weekly-review.yml の動作確認（手動実行） ✅
 - [x] #4 最初のプロジェクトを `/new-project` で作成する ✅ → 教授選
-- [ ] #5 `/orchestrate` の初回実行 `depends on #4`
+- [x] #5 `/orchestrate` の初回実行 ✅（nightly-orchestrate クラウド移行完了）
 
 ---
 
