@@ -1,0 +1,97 @@
+name: 📱 モバイルメモ取り込み
+
+on:
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  capture-memo:
+    # memoラベルが付いたIssueのみ処理
+    if: contains(github.event.issue.labels.*.name, 'memo')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create memo file
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          CREATED_AT: ${{ github.event.issue.created_at }}
+        run: |
+          DATE=$(echo "$CREATED_AT" | cut -c1-10)
+          TIME=$(echo "$CREATED_AT" | cut -c12-16 | tr ':' '-')
+          FILENAME="00_Inbox/${DATE}-${TIME}-memo.md"
+
+          cat > "$FILENAME" << 'MEMO_EOF'
+          # ${{ github.event.issue.title }}
+
+          > 📱 モバイルメモ | Issue #${{ github.event.issue.number }} | ${{ github.event.issue.created_at }}
+
+          ${{ github.event.issue.body }}
+
+          ---
+          #モバイルメモ #要整理
+          MEMO_EOF
+
+          # heredocだと変数展開できないのでpythonで生成
+          python3 - << EOF
+          import os
+
+          title = os.environ.get('ISSUE_TITLE', '')
+          body = os.environ.get('ISSUE_BODY', '') or ''
+          number = os.environ.get('ISSUE_NUMBER', '')
+          created_at = os.environ.get('CREATED_AT', '')
+          filename = "$FILENAME"
+
+          content = f"""# {title}
+
+          > 📱 モバイルメモ | Issue #{number} | {created_at}
+
+          {body}
+
+          ---
+          #モバイルメモ #要整理
+          """
+
+          with open(filename, 'w') as f:
+              f.write(content)
+
+          print(f"Created: {filename}")
+          EOF
+
+      - name: Git commit & push
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add 00_Inbox/
+          git diff --staged --quiet || git commit -m "📱 モバイルメモ #${ISSUE_NUMBER}: ${ISSUE_TITLE}"
+          git pull --rebase origin main
+          git push
+
+      - name: Close issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '✅ 00_Inbox/ にメモを保存しました。次の朝のInbox整理で自動分類されます。'
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });
