@@ -16,6 +16,27 @@
 
 ## ログ
 
+### 2026-03-16
+
+[20260316 inbox-organizer] スキャン: 00_Inbox/ → 整理対象ファイルなし（クリーン）
+[20260316 inbox-organizer] 全フォルダ誤分類チェック実施:
+  - 10_Journal/: 10件（inbox-triage×4, retrospective×4, weekly×2）→ 適切
+  - 20_Projects/: 20件（教授選プロジェクト一式 + roadmap.md）→ 適切
+  - 90_System/: 1件（inbox-log.md）→ 適切
+[20260316 inbox-organizer] 本日新規追加ファイル確認:
+  - 10_Journal/inbox-triage-2026-03-16.md → 10_Journal 適切（inbox triageログ）
+  - 10_Journal/retrospective-2026-03-16.md → 10_Journal 適切（orchestrate KPT）
+  - 20_Projects/教授選/voice-20260316-1200.md → inbox-triage済み・20_Projects 適切
+  - 20_Projects/教授選/全書類最終チェックリスト.md → 20_Projects 適切（プロジェクト成果物）
+  - 20_Projects/教授選/推薦依頼状_ドラフト.md → 20_Projects 適切（プロジェクト成果物）
+  - 20_Projects/教授選/様式6_研究インパクト表_ドラフト.md → 20_Projects 適切（プロジェクト成果物）
+[20260316 inbox-organizer] 結果サマリー:
+  - 00_Inbox 処理: 0件（クリーン）
+  - 誤分類修正: 0件
+  - 総ファイル数: 31件（brain管理下）
+
+---
+
 ### 2026-03-15
 
 [20260315 inbox-organizer] スキャン: 00_Inbox/ → 整理対象ファイルなし（クリーン）
