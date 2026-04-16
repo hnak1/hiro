@@ -89,8 +89,8 @@
 **状態**: 🟡 一部稼働中
 
 ### Issues
-- [x] `/orchestrate` の定期自動実行設定 → nightly-orchestrate.yml 稼働中（JST 0:30）✅
-- [x] `/stale-check` の定期通知設定 → stale-check.yml 追加（毎週水曜 JST 9:00）✅（2026-03-18）
+- [x] `/orchestrate` の定期自動実行設定 → nightly-orchestrate.yml 稼働中（JST 10:30）✅
+- [x] `/stale-check` の定期通知設定 → stale-check.yml 追加（毎週水曜 JST 15:00）✅（2026-03-18）
 - [ ] brain健全性モニタリング
 - [ ] ノートの自動リンク・タグ強化
 - [ ] 意思決定ログの自動収集
