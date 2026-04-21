@@ -3,7 +3,7 @@ name: 🤖 深夜オーケストレート
 on:
   schedule:
     # JST 0:30 = UTC 15:30（前日）※triage完了後に実行
-    - cron: '30 15 * * *'
+    - cron: '30 02 * * *'
   workflow_dispatch:
 
 jobs:
