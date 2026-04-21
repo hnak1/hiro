@@ -3,7 +3,7 @@ name: 🗂️ 深夜Inboxトリアージ
 on:
   schedule:
     # JST 0:00 = UTC 15:00（前日）
-    - cron: '0 15 * * *'
+    - cron: '0 02 * * *'
   workflow_dispatch:
 
 jobs:
