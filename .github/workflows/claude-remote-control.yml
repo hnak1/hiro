@@ -1,0 +1,77 @@
+name: 🤖 Claude リモートコントロール
+
+on:
+  issue_comment:
+    types: [created]
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  claude-control:
+    # @claude メンション または claude ラベル付与時に起動
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'claude'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Extract instruction
+        id: extract
+        run: |
+          if [ "${{ github.event_name }}" = "issue_comment" ]; then
+            # @claude以降のテキストを抽出
+            BODY='${{ github.event.comment.body }}'
+            INSTRUCTION=$(echo "$BODY" | sed 's/.*@claude[[:space:]]*//')
+            echo "instruction=$INSTRUCTION" >> $GITHUB_OUTPUT
+            echo "issue_number=${{ github.event.issue.number }}" >> $GITHUB_OUTPUT
+            echo "issue_title=${{ github.event.issue.title }}" >> $GITHUB_OUTPUT
+          else
+            # Issueオープン or claudeラベル付与時はIssue本文を使用
+            echo "instruction=${{ github.event.issue.body }}" >> $GITHUB_OUTPUT
+            echo "issue_number=${{ github.event.issue.number }}" >> $GITHUB_OUTPUT
+            echo "issue_title=${{ github.event.issue.title }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Claude
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ steps.extract.outputs.issue_number }}
+          ISSUE_TITLE: ${{ steps.extract.outputs.issue_title }}
+          INSTRUCTION: ${{ steps.extract.outputs.instruction }}
+        run: |
+          claude --print \
+            "あなたは「第2の脳」のClaudeエージェントです。
+            GitHub Issue #${ISSUE_NUMBER}「${ISSUE_TITLE}」に対するリモートコントロール指示を受け取りました。
+
+            指示内容:
+            ${INSTRUCTION}
+
+            以下のルールに従って作業してください:
+            - CLAUDE.mdのガイドラインを遵守する
+            - 作業完了後はgit commitする（日本語メッセージ）
+            - 結果の要約をIssueコメントに残す（gh CLIが使えない場合はスキップ）
+            - max_issues_per_chain: 3を超えないこと" \
+            --allowedTools "Read,Write,Edit,Bash,Glob,Grep" \
+            --max-turns 30
+
+      - name: Git commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet || git commit -m "🤖 リモート実行: Issue #${{ steps.extract.outputs.issue_number }} 「${{ steps.extract.outputs.issue_title }}」"
+          git pull --rebase origin main
+          git push
