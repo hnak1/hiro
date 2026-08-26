@@ -3,7 +3,15 @@
 brain（このリポジトリ）のルールは `.claude/CLAUDE.md` に書いてあるため、**brainフォルダ内で作業しているときにしか効かない**。
 `C:\Users\hnak\Dropbox\MyPaperProject\MyPaperProject20260627` など別フォルダにも効かせるには、下記のどちらかを実施する。
 
-## 方法A: ユーザー全体に適用（推奨）
+## 方法A-1: スクリプトで適用（最短・推奨）
+
+brain を `git pull` したあと、brainフォルダで以下を1回実行する。適用済みなら何もしない（再実行しても安全）。
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\90_System\apply-no-watermark-rule.ps1
+```
+
+## 方法A-2: 手で追記する
 
 `C:\Users\hnak\.claude\CLAUDE.md` に追記する。このファイルはPC上のすべてのフォルダで読み込まれるため、
 MyPaperProject を含む今後のあらゆるプロジェクトに一度で効く。
