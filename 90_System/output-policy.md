@@ -31,10 +31,21 @@ brain内のノート本文には、生成元・実行者・AIモデル名を示�
 
 ## 適用範囲
 
-- 適用: `00_Inbox` `10_Journal` `20_Projects` `30_Tech_Notes` `50_Business_Context` `90_System` `99_Archives` のノート本文
-- 適用外: gitコミットメッセージ（`🤖 自動: ...` は自動実行の識別子として維持）
-- 適用外: GitHub上のIssue/PRコメント（Claude Code側の仕様でフッターが自動付与される）
+**出力先を問わず適用する。**
+
+| 対象 | 状態 |
+|---|---|
+| brain内ノート本文（全フォルダ） | 適用済み |
+| brain外の作業フォルダ（論文プロジェクト等） | 適用（`90_System/no-watermark-global-rule.md` の手順でPC側に設定） |
+| 本文以外（frontmatter・HTML/LaTeXコメント・ファイルのメタデータ） | 適用 |
+| gitコミットメッセージ（`🤖 自動: ...`） | 適用外（brainの自動実行コミット識別子として維持） |
+| GitHub上のIssue/PRコメント | 適用外（Claude Code側の仕様でフッターが自動付与され抑制不可） |
+
+### 既知の外部出力先
+
+- `C:\Users\hnak\Dropbox\MyPaperProject\MyPaperProject20260627`
 
 ## 参照
 
-ルール本体: `.claude/CLAUDE.md` — Guidelines 7
+- ルール本体: `.claude/CLAUDE.md` — Guidelines 7
+- brain外への適用手順: `90_System/no-watermark-global-rule.md`
