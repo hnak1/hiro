@@ -1,6 +1,6 @@
 # 振り返り 2026-03-23
 
-実行者: orchestrate（Claude Sonnet 4.6）
+実行コマンド: `/orchestrate`
 実行時刻: 2026-03-23
 Guardrails: max_issues=3, consecutive_errors_limit=3
 

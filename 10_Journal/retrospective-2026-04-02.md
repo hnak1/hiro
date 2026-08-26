@@ -1,6 +1,6 @@
 # 振り返り — 2026-04-02
 
-生成: orchestrate（Claude）
+実行コマンド: `/orchestrate`
 対象: /orchestrate Top3実行
 
 ---

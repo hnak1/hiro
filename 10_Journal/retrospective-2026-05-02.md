@@ -1,6 +1,6 @@
 # 振り返り 2026-05-02
 
-実行者: orchestrate（Claude）
+実行コマンド: `/orchestrate`
 セッション種別: スコアリング→Issue順次実行
 Guardrails: max_issues=3, consecutive_errors_limit=3
 

@@ -75,7 +75,3 @@
 | issues実行数 | 3 | 3 |
 | 連続エラー数 | 3 | 1 (GitHub close ×3、同一原因) |
 | 実行時間 | 30分 | 〜10分 |
-
----
-
-*生成: Claude (Hiro Brain) / orchestrate 2026-03-24*

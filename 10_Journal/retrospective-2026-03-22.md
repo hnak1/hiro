@@ -92,7 +92,3 @@ Guardrails: max_issues=3, consecutive_errors_limit=3
 ### 即座にできる1件
 `roadmap.md の #6・#7・#8・#9 を GitHub close済みの状態に反映する`
 → orchestrate のスコアリング精度が向上する
-
----
-
-_生成: Claude Code (claude-sonnet-4-6) / orchestrate 2026-03-22_

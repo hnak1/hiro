@@ -1,6 +1,6 @@
 # 振り返り 2026-03-14: orchestrate top-3 実行KPT
 
-実行者: Claude (orchestrate)
+実行コマンド: `/orchestrate`
 Guardrails: max_issues=3, consecutive_errors_limit=3
 所要時間: 1チェーン完了
 

@@ -1,6 +1,5 @@
 # 振り返り — orchestrate 実行 2026-03-16
 
-実行者: Claude Sonnet 4.6
 フォーマット: KPT
 Guardrails: max_issues=3, consecutive_errors=0（正常完了）
 
@@ -78,7 +77,3 @@ Guardrails: max_issues=3, consecutive_errors=0（正常完了）
 次Milestone候補:
 - **MS4: 書類提出完了** — 上記の前提条件をユーザーが揃えたら即提出
 - **MS5: 面接対策本格実施** — #15をフル実行（30問練習・シミュレーション）
-
----
-
-*生成: Claude Sonnet 4.6 / orchestrate 2026-03-16*

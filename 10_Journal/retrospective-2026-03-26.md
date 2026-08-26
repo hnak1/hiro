@@ -96,7 +96,3 @@ Guardrails: max_issues=3 / consecutive_errors=0 / 停止なし
 | 🔴 最高 | 様式9.xlsxに手術実績データを記入 | 提出前 |
 | 🟡 高 | 表1（IF合計・科研費・被引用数）を計算して記入 | 提出前 |
 | 🟡 高 | 推薦書②（署名・日付未記入）の修正受領確認 | 提出前 |
-
----
-
-*生成: orchestrate 2026-03-26 | Issues実行: 3/3 | Errors: 0 | Commits: 3*

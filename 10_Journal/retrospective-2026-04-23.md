@@ -1,6 +1,6 @@
 # 振り返り — 2026-04-23 orchestrate 実行
 
-作成: 2026-04-23（orchestrate 自動生成）
+作成: 2026-04-23（`/orchestrate`）
 
 ---
 
